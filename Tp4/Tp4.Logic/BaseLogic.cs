@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tp4.Entities;
+using Tp4.Data;
 
 namespace Tp4.Logic
 {
