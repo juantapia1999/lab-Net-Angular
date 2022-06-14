@@ -28,28 +28,52 @@ namespace Tp5.Logic
 
         public List<CustomersAndOrders> GetAllJoinWithOrdersByRegionAndDate()
         {
-            var listFiltered = (from c in context.Customers 
+            var listFiltered = (from c in context.Customers
                                 join o in context.Orders on c.CustomerID equals o.CustomerID
-                                where c.Region.Equals("WA") && o.OrderDate>new DateTime(1997,1,1)
+                                where c.Region.Equals("WA") && o.OrderDate > new DateTime(1997, 1, 1)
                                 select new CustomersAndOrders
                                 {
-                                    CustomerID=c.CustomerID,
+                                    CustomerID = c.CustomerID,
                                     CompanyName = c.CompanyName,
                                     ContactName = c.ContactName,
                                     Address = c.Address,
                                     City = c.City,
                                     Region = c.Region,
                                     Country = c.Country,
-                                    OrderID=o.OrderID,
-                                    OrderDate=o.OrderDate,
-                                    RequiredDate=o.RequiredDate,
-                                    ShippedDate=o.ShippedDate,
-                                    ShipCountry=o.ShipCountry,
-                                    ShipName=o.ShipName,
-                                    ShipRegion=o.ShipRegion
+                                    OrderID = o.OrderID,
+                                    OrderDate = o.OrderDate,
+                                    RequiredDate = o.RequiredDate,
+                                    ShippedDate = o.ShippedDate,
+                                    ShipCountry = o.ShipCountry,
+                                    ShipName = o.ShipName,
+                                    ShipRegion = o.ShipRegion
                                 }
                                 );
             return listFiltered.ToList();
         }
+
+        public List<CountCustomerOrder> GetAllCountAndJoinWithOrdersByRegionAndDate()
+        {
+            var listFiltered = (
+                from c in context.Customers
+                join o in context.Orders on c.CustomerID equals o.CustomerID                
+                where c.Region.Equals("WA") && o.OrderDate > new DateTime(1997, 1, 1)     
+                group c by c into g             
+                select new CountCustomerOrder
+                {
+                    Customers1 = g.Key,
+                    Orders1= g.Key.Orders.Where(a=>a.OrderDate> new DateTime(1997, 1, 1)),
+                    CountOrder=g.Count()
+                }
+                );
+            return listFiltered.ToList();
+        }
+    }
+    public class CountCustomerOrder
+    {
+
+        public virtual Customers Customers1 { get; set; }
+        public virtual IEnumerable<Orders> Orders1 { get; set; }
+        public int CountOrder { get; set; }
     }
 }

@@ -236,11 +236,31 @@ namespace Tp5.UI
                 foreach (var x in customersLogic.GetAllJoinWithOrdersByRegionAndDate())
                 {
                     Console.WriteLine($"ID Customer: {x.CustomerID} - Contact Name: {x.ContactName} - Shipper Name: {x.ShipName} - Customer Region: {x.Region} - Shipper Region: {x.ShipRegion} - Order Date: {x.OrderDate} - Order Id:{x.OrderID}");
+
                 }
                 Console.WriteLine("Operacion realizada");
             }
             catch (Exception)
             {
+                Console.WriteLine("Ocurrio un error con la consulta");
+            }
+
+
+            try
+            {
+                foreach (var x in customersLogic.GetAllCountAndJoinWithOrdersByRegionAndDate())
+                {
+                    Console.WriteLine($"ID Customer: {x.Customers1.CustomerID} - Contact Name: {x.Customers1.ContactName} - Customer Region: {x.Customers1.Region} - Count: {x.CountOrder}");
+                    foreach (var y in x.Orders1)
+                    {
+                        Console.WriteLine($"---- Order Id: {y.OrderID} - Shipper Name: {y.ShipName} - Shipper Region: {y.ShipRegion} - Order Date: {y.OrderDate}");
+                    }
+                }
+                Console.WriteLine("Operacion realizada");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
                 Console.WriteLine("Ocurrio un error con la consulta");
             }
         }
