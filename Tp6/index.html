@@ -7,78 +7,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/style.css">
     <title>Document</title>
 </head>
-<!-- 
-    HTML Y CSS
-        Elaborar un formulario como el siguiente, cambiando los estilos:
-        Desde una hoja de estilo aparte
-        ● Color de fondo formulario
-        ● Tipo de letra formulario
-        Desde la etiqueta style
-        ● Ancho campo Edad
-        Desde el atributo style
-        ● Ancho formulario
-
-
-        h1 -> Contacto
-        p-> completa tus datos
-
-        div informacion personal
-            campos de formulario
-            -nombre
-            -apellido
-            -fecha de nacimiento
-            -label con edad calculada
-            -checkbox con sexo (masculino, femenino y otro)
-        /div    
-        div Informacion Adicional
-            campo de formulario
-            -empresa
-        /div
-        boton submit
-    
-    
-    JavaScript &amp; JQuery
-        Agregar una función que valide que los campos nombre y apellido estén completos, en caso
-        de no estarlo mostrar mensaje.
-        Agregar un botón que llame a una función para limpiar todos los campos del formulario.
-
-
-    Por las dudas, para los que no estuvieron, al final de la clase dimos algunas consignas adicionales con relación a la práctica de HTML-CSS-JS:
-    En lugar de ingresar la edad en el formulario, deben ingresar la fecha de nacimiento, y en un campo aparte (Label, textbox, o el que les quede más cómodo) deberá calcularse automáticamente la edad. (También pueden poner meses, dias y horas en la edad).
-    Tips:
-    - Pueden agregar una imagen de fondo
-    - Pueden agregar alguna transition con algun efecto.
-    - Pueden agregar todos los campos que quieran.
-    Para la entrega pueden adjuntar un .RAR/.ZIP con los objetos web o bien pueden enviarnos un link que consuma los objetos y nosotros lo podamos ver directamente en la web.
-    Pueden usar JavaScript puro o jQuery para excribir el código JavaScript.
-    Salud!! 😎
- -->
 
 <body>
-    <div class="container">
-        <h1>Contacto</h1>
-        <p>Completá con tus datos</p>
-        <div class="row">
-            <div class="col-12">
-                <form>
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" class="form-control">
+    <div class="container" style="margin-bottom: 3rem;">
+        <div class="row box">
+            <div class="col-12" style="color: white;">
+                <h1>Contacto</h1>
+                <p>Completá con tus datos</p>
+            </div>            
+        </div>
+
+        <div class="row box" id="principal">
+            <div class="col-12" style="margin-top: 1rem;">
+                <form onsubmit="submitForm(event)">
+                    <div class="col-12" id="personal">
+                        <p class="title-box">&nbsp;Informacion personal:&nbsp;</p>
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" class="form-control" required minlength="3">
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" id="apellido" class="form-control" minlength="3">
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                            <input type="datetime-local" id="fechaNacimiento" class="form-control" required>
+                        </div>
+                        <div class="form-goup">
+                            <p>Edad aproximada (experiemntal): <span id="edadExperimental"></span></p>
+                            <p>Edad exacta (sin horas): <span id="edadExacta"></span></p>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="op1"
+                                    value="masculino" checked>
+                                <label class="form-check-label" for="op1">
+                                    Masculino
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="op2"
+                                    value="femenino">
+                                <label class="form-check-label" for="op2">
+                                    Femenino
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exampleRadios" id="op3"
+                                    value="otro">
+                                <label class="form-check-label" for="op3">
+                                    Otro
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="apellido">Apellido</label>
-                        <input type="text" id="apellido" class="form-control">
+                    <br>
+                    <div class="col-12" id="adicional">
+                        <p class="title-box">&nbsp;Informacion adicional:&nbsp;</p>
+                        <div class="form-group">
+                            <labe for="empresa">Empresa:</labe>
+                            <input type="text" class="form-control" id="empresa">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="fechaNacimiento">Fecha de Nacimiento</label>
-                        <input type="datetime-local" id="fechaNacimiento" class="form-control">
+                    <br>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success">Enviar</button>
+                        <button type="reset" class="btn btn-warning" onclick="resetForm()">Reiniciar</button>
                     </div>
-                    <div class="form-goup">
-                        <p>Edad: <span id="edad"></span></p>
-                    </div>
-                    <button type="submit" class="btn btn-outline-success">Enviar</button>
                 </form>
             </div>
         </div>
@@ -90,7 +89,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
-        <script src="./js/app.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>

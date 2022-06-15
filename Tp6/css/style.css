@@ -1,0 +1,30 @@
+#personal{
+    border: 2px solid #ddd;
+}
+
+#adicional{
+    border: 2px solid #ddd;
+}
+
+p.title-box{
+    width: fit-content;
+    margin-top: -16px;
+    background-color: #b0c9e5;
+}
+button.btn{
+    margin-bottom: 1rem;
+}
+
+div.box{
+    padding: 1rem 0rem;
+}
+
+div.box#principal{
+    background-color: #b0c9e5;
+    border-radius: 1rem;   
+    box-shadow: 10px 15px 20px #4166e5;
+}
+body{
+    background-image: url("https://www.biodisol.com/wp-content/uploads/2018/11/el-fondo-marino-se-disuelve.jpg");
+    background-size: cover;
+}
