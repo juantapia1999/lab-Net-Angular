@@ -14,8 +14,9 @@ namespace Tp7.MVC.Controllers
     public class ShipperController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string message)
         {
+            ViewBag.ErrorMessage = message;
             List<ShipperView> shippers = new List<ShipperView>();
             try
             {
@@ -31,7 +32,7 @@ namespace Tp7.MVC.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.ErrorMessage = e.Message;
+                ViewBag.ErrorMessage += " - " + e.Message;
                 return View(shippers);
             }
         }
@@ -176,6 +177,134 @@ namespace Tp7.MVC.Controllers
             catch (Exception e)
             {
                 return Content(e.Message);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult CreateOrEdit(int? id)
+        {
+            if (string.IsNullOrWhiteSpace(id.ToString()))
+            {
+                ViewBag.Action = "Agregar Expedidor";
+                return View();
+            }
+            else
+            {
+                try
+                {
+                    ShippersLogic shippersLogic = new ShippersLogic();
+                    var find = shippersLogic.FindOne((int)id);
+                    if (find != null)
+                    {
+                        ShipperFormModel form = new ShipperFormModel
+                        {
+                            ShipperID = find.ShipperID,
+                            CompanyName = find.CompanyName,
+                            Phone = find.Phone
+                        };
+                        ViewBag.Action = "Editar Expedidor";
+                        return View(form);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index");
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.ErrorMessage = e.Message;
+                    return RedirectToAction("Index", new { message = e.Message });
+                }
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateOrEdit(ShipperFormModel form)
+        {
+            if (form.ShipperID != null)
+            {
+                ViewBag.Action = "Editar Expedidor";
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        ShippersLogic shippersLogic = new ShippersLogic();
+                        var find = shippersLogic.FindOne((int)form.ShipperID);
+                        if (find != null)
+                        {
+                            shippersLogic.Update(new Shippers
+                            {
+                                ShipperID = (int)form.ShipperID,
+                                CompanyName = form.CompanyName,
+                                Phone = form.Phone
+                            });
+                            ViewBag.Message = "Se ha editado con exito";
+                            return View(form);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", new { message= "No se encontro el expedidor"});
+                        }
+                    }
+                    catch (DbEntityValidationException db)
+                    {
+                        ViewBag.ErrorMessage = GetErrorMessageDataBase(db);
+                        return View(form);
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.ErrorMessage = e.Message;
+                        return View(form);
+                    }
+                }
+                else
+                {
+                    return View(form);
+                }
+            }
+            else
+            {
+                ViewBag.Action = "Agregar Expedidor";
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        ShippersLogic shippersLogic = new ShippersLogic();
+                        int nuevoId = shippersLogic.FindLastIndex() + 1;
+                        shippersLogic.Add(new Shippers
+                        {
+                            CompanyName = form.CompanyName,
+                            Phone = form.Phone,
+                            ShipperID = nuevoId
+                        });
+                        return RedirectToAction("Index");
+                    }
+                    catch (InvalidOperationException i)
+                    {
+                        ViewBag.ErrorMessage = i.Message;
+                        return View(form);
+                    }
+                    catch (ArgumentNullException a)
+                    {
+                        ViewBag.ErrorMessage = a.Message;
+                        return View(form);
+                    }
+                    catch (DbEntityValidationException db)
+                    {
+                        ViewBag.ErrorMessage = GetErrorMessageDataBase(db);
+                        return View(form);
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.ErrorMessage = e.Message;
+                        return View(form);
+                    }
+                }
+                else
+                {
+                    return View(form);
+                }
             }
         }
 

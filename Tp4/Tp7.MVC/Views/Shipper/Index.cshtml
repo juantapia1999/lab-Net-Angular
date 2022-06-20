@@ -27,6 +27,7 @@
                         <td>
                             <div class="btn-group btn-group-sm" role="group" aria-label="...">
                                 @Html.ActionLink("Editar", "Edit", new { id = item.ShipperID }, new { @class = "btn btn-outline-warning" })
+                                @Html.ActionLink("Editar v2", "CreateOrEdit", "Shipper", new { id = item.ShipperID }, new { @class = "btn btn-outline-secondary btn-block" })
                                 <button type="button" onclick="deleteShipper(@item.ShipperID)" class="btn btn-outline-danger">Eliminar</button>
                             </div>
                         </td>
@@ -43,11 +44,13 @@
         </tbody>
     </table>
     @Html.ActionLink("Crear nuevo Expedidor", "Add", "Shipper", new { @class = "btn btn-primary btn-block" })
+    @Html.ActionLink("Crear nuevo Expedidor v2", "CreateOrEdit", "Shipper", new { @class = "btn btn-secondary btn-block" })
+
 </div>
 
 @if (ViewBag.ErrorMessage != null)
 {
-    <div class="alert alert-danger" role="alert">Server Message: <br />@ViewBag.ErrorMessage</div>
+    <div class="alert alert-danger" role="alert" style="border:1px solid red">Server Message: <br />@ViewBag.ErrorMessage</div>
 }
 
 

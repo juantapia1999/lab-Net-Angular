@@ -286,6 +286,7 @@
     <Content Include="Views\Shipper\Index.cshtml" />
     <Content Include="Views\Shipper\Add.cshtml" />
     <Content Include="Views\Shipper\Edit.cshtml" />
+    <Content Include="Views\Shipper\CreateOrEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
