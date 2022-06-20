@@ -1,0 +1,73 @@
+﻿@model List<Tp7.MVC.Models.TableViewModel.ShipperView>
+@{
+    ViewBag.Title = "Expedidores";
+}
+
+<h2>Lista de Expedidores</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre de Compañia</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Accciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td scope="row" class="align-middle">@item.ShipperID</td>
+                        <td class="align-middle">@item.CompanyName</td>
+                        <td class="align-middle">@item.Phone</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                @Html.ActionLink("Editar", "Edit", new { id = item.ShipperID }, new { @class = "btn btn-outline-warning" })
+                                <button type="button" onclick="deleteShipper(@item.ShipperID)" class="btn btn-outline-danger">Eliminar</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">No hay Expedidores</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    @Html.ActionLink("Crear nuevo Expedidor", "Add", "Shipper", new { @class = "btn btn-primary btn-block" })
+</div>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert">Server Message: <br />@ViewBag.ErrorMessage</div>
+}
+
+
+<script>
+    function deleteShipper(id) {
+        if (confirm("¿Esta seguro de eliminar el expedidor?")) {
+            url = "@Url.Content("~/Shipper/Delete")" + "/" + id;
+            $.post(url, function (data) {
+                if (data == "1") {
+                    alert("Se ha eliminado el expedidor");
+                    window.location.reload(true);
+                } else if (data == "0") {
+                    alert("No existe el expedidor");
+                } else {
+                    alert("Error: "+data);
+                }
+            }).fail(function (response) {
+                alert("Hubo fallas en el sistema");
+                console.log(response);
+            });
+        }
+    }
+</script>

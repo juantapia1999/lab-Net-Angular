@@ -1,0 +1,73 @@
+﻿@model List<Tp7.MVC.Models.TableViewModel.CategoryView>
+@{
+    ViewBag.Title = "Categorias";
+}
+
+<h2>Lista de Categorias</h2>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Accciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td scope="row" class="align-middle">@item.CategoryID</td>
+                        <td class="align-middle">@item.CategoryName</td>
+                        <td class="align-middle">@item.Description</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                @*<button type="button" class="btn btn-outline-warning">Editar</button>*@
+                                @Html.ActionLink("Editar", "Edit", new { id = item.CategoryID }, new { @class = "btn btn-outline-warning" })
+                                <button type="button" onclick="deleteCategory(@item.CategoryID)" class="btn btn-outline-danger">Eliminar</button>
+                                @*@Html.ActionLink("Eliminar", "Delete", new { id = item.CategoryID }, new { @class = "btn btn-outline-danger" })*@
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4">No hay Categorias</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.ActionLink("Crear nueva Categoria", "Add", "Category", new { @class = "btn btn-primary btn-block" })
+</div>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert" style="border:1px solid red">Server Message: <br />@ViewBag.ErrorMessage</div>
+}
+
+
+<script>
+    function deleteCategory(id) {
+        if (confirm("¿Esta seguro de eliminar la categoria?")) {
+            url = "@Url.Content("~/Category/Delete")" + "/" + id;
+            $.post(url, function (data) {
+                if (data == "1") {
+                    alert("Se ha eliminado la categoria");
+                    window.location.reload(true);
+                } else if (data == "0") {
+                    alert("No existe la categoria");
+                } else {
+                    alert("Error: "+data);
+                }
+            }).fail(function (response) {
+                alert("Hubo fallas en el sistema");
+                console.log(response);
+            });
+        }
+    }
+</script>
