@@ -11,42 +11,93 @@ namespace Tp4.Logic
     {
         public int FindLastIndex()
         {
-            return context.Shippers.OrderByDescending(s => s.ShipperID).First().ShipperID;
+            try
+            {
+                return context.Shippers.OrderByDescending(s => s.ShipperID).First().ShipperID;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool Exist(int id)
         {
-            return context.Shippers.Find(id) != null;
+            try
+            {
+                return context.Shippers.Find(id) != null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
         public void Add(Shippers obj)
         {
-            context.Shippers.Add(obj);
-            context.SaveChanges();
+            try
+            {
+                context.Shippers.Add(obj);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void Delete(int id)
         {
-            var shipperDelete = context.Shippers.Find(id);
-            context.Shippers.Remove(shipperDelete);
-            context.SaveChanges();
+            try
+            {
+                var shipperDelete = context.Shippers.Find(id);
+                context.Shippers.Remove(shipperDelete);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
         public Shippers FindOne(int id)
         {
-            return context.Shippers.Find(id);
+            try
+            {
+                return context.Shippers.Find(id);
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
         public List<Shippers> GetAll()
         {
-            return context.Shippers.ToList();
+            try
+            {
+                return context.Shippers.ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void Update(Shippers obj)
         {
-            var shipperUpdate = context.Shippers.Find(obj.ShipperID);
-            shipperUpdate.Phone = obj.Phone != "-" ? obj.Phone : shipperUpdate.Phone;
-            shipperUpdate.CompanyName = obj.CompanyName != "" ? obj.CompanyName : shipperUpdate.CompanyName;
-            context.SaveChanges();
+            try
+            {
+                var shipperUpdate = context.Shippers.Find(obj.ShipperID);
+                shipperUpdate.Phone = obj.Phone != "-" ? obj.Phone : shipperUpdate.Phone;
+                shipperUpdate.CompanyName = obj.CompanyName != "" ? obj.CompanyName : shipperUpdate.CompanyName;
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }            
         }
     }
 }

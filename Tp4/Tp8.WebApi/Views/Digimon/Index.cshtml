@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Tp8.WebApi.Models.DigimonModelView>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>List of Digimon</h2>
+<div class="card-group">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6 col-md-3 col-xs-6">
+                <div class="thumbnail" style="border-radius:1rem">
+                    <img src="@item.Img" style="border:2px solid #ddd;border-radius:1rem" />
+                    <div class="caption">
+                        <h5><strong>@item.Name</strong></h5>
+                        <p>Level: @item.Level</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger" role="alert" style="border:1px solid red">Server Message: <br />@ViewBag.ErrorMessage</div>
+}

@@ -11,43 +11,91 @@ namespace Tp4.Logic
     {
         public int FindLastIndex()
         {
-            return context.Categories.OrderByDescending(c => c.CategoryID).First().CategoryID;
+            try
+            {
+                return context.Categories.OrderByDescending(c => c.CategoryID).First().CategoryID;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public bool Exist(int id)
         {
-            return context.Categories.Find(id) != null;
+            try
+            {
+                return context.Categories.Find(id) != null;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
         public void Add(Categories obj)
         {
-            context.Categories.Add(obj);
-            context.SaveChanges();
+            try
+            {
+                context.Categories.Add(obj);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void Delete(int id)
         {
-            var categoryDelete = context.Categories.Find(id);
-            context.Categories.Remove(categoryDelete);
-            context.SaveChanges();
-
+            try
+            {
+                var categoryDelete = context.Categories.Find(id);
+                context.Categories.Remove(categoryDelete);
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Categories FindOne(int id)
         {
-            return context.Categories.Find(id);
+            try
+            {
+                return context.Categories.Find(id);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public List<Categories> GetAll()
         {
-            return context.Categories.ToList();
+            try
+            {
+                return context.Categories.ToList();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void Update(Categories obj)
         {
-            var categoryUpdate = context.Categories.Find(obj.CategoryID);
-            categoryUpdate.CategoryName = obj.CategoryName != "" ? obj.CategoryName : categoryUpdate.CategoryName;
-            categoryUpdate.Description = obj.Description != "-" ? obj.Description : categoryUpdate.Description;
-            context.SaveChanges();
+            try
+            {
+                var categoryUpdate = context.Categories.Find(obj.CategoryID);
+                categoryUpdate.CategoryName = obj.CategoryName != "" ? obj.CategoryName : categoryUpdate.CategoryName;
+                categoryUpdate.Description = obj.Description != "-" ? obj.Description : categoryUpdate.Description;
+                context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }            
         }
     }
 }
