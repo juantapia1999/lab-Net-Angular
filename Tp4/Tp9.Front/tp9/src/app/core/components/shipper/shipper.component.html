@@ -1,0 +1,66 @@
+<div class="row">
+    <button class="btn btn-block btn-outline-primary" type="button" (click)="open(content)" style="margin:8px 0px">Crear Expedidor</button>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NOMBRE</th>
+                    <th scope="col">TELEFONO</th>
+                    <th scope="col">ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of shipper">
+                    <th scope="row">{{s.shipperID}}</th>
+                    <td>{{s.companyName}}</td>
+                    <td>{{s.phone}}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-warning btn-sm"
+                                (click)="open(content,s)">Editar</button>
+                            <button type="button" class="btn btn-danger btn-sm"
+                                (click)="eliminar(s.shipperID)">Borrar</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="shipper.length<1">
+                   <td colspan="4">No hay Datos</td> 
+                </tr>
+            </tbody>            
+        </table>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{edit?'Editar Expedidor':'Crear Expedidor'}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="shipperForm">
+            <div class="form-group">
+                <label for="companyName">Nombre de Expedidor<span style="color: red;">*</span>:</label>
+                <input type="text" id="companyName" name="companyName" class="form-control" formControlName="companyName" required minlength="1" maxlength="40">
+                <div class="invalid" *ngIf="checkField('companyName')">
+                    <small class="invalid-field">{{fieldMessage('companyName')}}</small>
+                  </div>
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefono:</label>
+                <input type="text" id="phone" name="phone" class="form-control" formControlName="phone" maxlength="24">
+                <div class="invalid" *ngIf="checkField('phone')">
+                    <small class="invalid-field">{{fieldMessage('phone')}}</small>
+                  </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="edit" type="button" class="btn btn-outline-success"
+            (click)="saveChange()">Guardar</button>
+        <button *ngIf="!edit" type="button" class="btn btn-outline-success"
+            (click)="saveChange()">Aceptar</button>
+    </div>
+</ng-template>
